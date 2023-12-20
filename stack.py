@@ -5,7 +5,7 @@ from troposphere import (
     Output,
 )
 
-from troposphere.awslambda import Function, Code, Permission
+from troposphere.awslambda import Function, Code, Permission, Environment, Url
 from troposphere.iam import Role, Policy
 
 # CloudFormation-шаблон
@@ -70,11 +70,11 @@ lambda_fn = t.add_resource(
         Code=Code(
             ImageUri=image_uri.ref(),
         ),
-        Environment={
-            "Variables": {
+        Environment=Environment(
+            Variables={
                 "TELEGRAM_API_KEY": telegram_api_key_param.ref(),
-            },
-        },
+            }
+        ),
         Role=GetAtt(execution_role, "Arn"),
     )
 )
@@ -82,10 +82,18 @@ lambda_fn = t.add_resource(
 t.add_resource(
     Permission(
         title="LambdaPermission",
-        Action="lambda:InvokeFunction",
+        Action="lambda:InvokeFunctionUrl",
         FunctionUrlAuthType="NONE",
         FunctionName=lambda_fn.ref(),
         Principal="*",
+    )
+)
+
+lambda_url = t.add_resource(
+    Url(
+        title="LambdaFunctionUrl",
+        AuthType="NONE",
+        TargetFunctionArn=GetAtt(lambda_fn, "Arn"),
     )
 )
 
@@ -93,7 +101,7 @@ t.add_output(
     Output(
         "LambdaFunctionUrl",
         Description="Lambda Function URL",
-        Value=GetAtt(lambda_fn, "FunctionUrl"),
+        Value=GetAtt(lambda_url, "FunctionUrl"),
     )
 )
 
