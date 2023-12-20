@@ -37,10 +37,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     f = await context.bot.get_file(update.message.document.file_id)
-    mem = io.StringIO()
+    mem = io.BytesIO()
     await f.download_to_memory(mem)
 
-    converted = io.StringIO(mem.read().encode("latin1").decode("cp1251"))
+    converted = io.StringIO(mem.read().decode("cp1251"))
     events = read_outlook_calendar_csv(converted)
 
     await update.message.reply_text(f"Завантажено {len(events)} подій.")
