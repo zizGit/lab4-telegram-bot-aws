@@ -40,10 +40,7 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mem = io.BytesIO()
     await f.download_to_memory(mem)
 
-    mem.seek(0)
-
-    converted = io.StringIO(mem.read().decode("cp1251"))
-    events = read_outlook_calendar_csv(converted)
+    events = read_outlook_calendar_csv(io.TextIOWrapper(mem, encoding="cp1251"))
 
     await update.message.reply_text(f"Завантажено {len(events)} подій.")
     return ConversationHandler.END
