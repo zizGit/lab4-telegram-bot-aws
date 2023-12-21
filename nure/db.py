@@ -43,6 +43,7 @@ def put_schedule(schedule_id: str, events: list[Event]) -> None:
 
 
 def select(schedule_id: str, start_date: str) -> list[Event]:
+    # Reference: https://docs.aws.amazon.com/AmazonSimpleDB/latest/DeveloperGuide/SimpleQueriesSelect.html
     result = sdb.select(
         SelectExpression=f"select * from {schedule_id} where start_date = '{start_date}'"
     )

@@ -49,6 +49,11 @@ execution_role = t.add_resource(
                     "Statement": [
                         {
                             "Effect": "Allow",
+                            "Action": "sdb:*",
+                            "Resource": "*"
+                        },
+                        {
+                            "Effect": "Allow",
                             "Action": [
                                 "logs:PutLogEvents",
                                 "logs:CreateLogGroup",
