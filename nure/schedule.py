@@ -1,16 +1,7 @@
 import csv
 import io
-from datetime import datetime
-from dataclasses import dataclass
 
-
-@dataclass
-class Event:
-    title: str
-    start_date: str
-    start_time: str
-    end_date: str
-    end_time: str
+from nure.event import Event
 
 
 def read_outlook_calendar_csv(obj) -> list[Event]:
