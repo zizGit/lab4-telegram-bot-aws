@@ -38,6 +38,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Downloads a file with schedule, parse it, and add to the database."""
+    user_id = str(update.message.from_user.id)
+
+    # Download.
     await update.message.reply_text("Завантажую події. Зачекайте будь ласка.")
     f = await context.bot.get_file(update.message.document.file_id)
     mem = io.BytesIO()
@@ -49,9 +52,9 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if len(events) > 0:
         # Add to the database.
-        delete_schedule(context.user_data["id"])
-        create_schedule(context.user_data["id"])
-        put_schedule(context.user_data["id"], events)
+        delete_schedule(user_id)
+        create_schedule(user_id)
+        put_schedule(user_id, events)
 
         # Send a message.
         await update.message.reply_text(
@@ -65,8 +68,8 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def select_request(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    events = select(context.user_data["id"], update.message.text.strip(" \t\n"))
+    user_id = str(update.message.from_user.id)
+    events = select(user_id, update.message.text.strip(" \t\n"))
 
     if len(events) == 0:
         await update.message.reply_text(
