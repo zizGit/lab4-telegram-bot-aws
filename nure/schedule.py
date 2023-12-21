@@ -14,7 +14,7 @@ def read_outlook_calendar_csv(obj) -> list[Event]:
                 start_date=r["Дата начала"],
                 start_time=r["Время начала"],
                 end_date=r["Дата завершения"],
-                end_time=["Время завершения"],
+                end_time=r["Время завершения"],
             )
         )
     return events

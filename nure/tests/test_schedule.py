@@ -9,3 +9,7 @@ def test_schedule():
 
     assert len(events) > 0
     assert events[0].title == "*Clpr Лк ФІЛІЯ КІУКІ-20-7,8,9"
+    assert events[0].start_date == "02.10.2023"
+    assert events[0].end_date == "02.10.2023"
+    assert events[0].start_time == "11:15:00"
+    assert events[0].end_time == "12:50:00"
