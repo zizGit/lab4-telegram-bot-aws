@@ -21,7 +21,7 @@ image_uri = t.add_parameter(
 
 telegram_api_key_param = t.add_parameter(
     Parameter(
-        "TelegramApiKeyParam",
+        "TelegramApiKey",
         Description="Telegram API Key",
         Type="String",
     )
